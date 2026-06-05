@@ -4,469 +4,185 @@
 
 DevSync
 
-## Application Type
+## Overview
 
-Real-Time Collaborative Repository Workspace
-
----
-
-# 1. User Journey Overview
-
-User
-
-↓
-
-Register / Login
-
-↓
-
-Dashboard
-
-↓
-
-Create Repository
-
-↓
-
-Invite Collaborators
-
-↓
-
-Open Repository Workspace
-
-↓
-
-Manage Files & Folders
-
-↓
-
-Real-Time Collaboration
-
-↓
-
-Export Repository
-
-↓
-
-Run Locally
+DevSync follows a repository-based workflow where users can create repositories, invite collaborators, and work together on project files in real time. The application is designed to ensure that all collaborators always have access to the latest version of the project without manually sharing files or performing synchronization operations.
 
 ---
 
-# 2. Authentication Flow
+## User Authentication Flow
 
-Landing Page
+A new user creates an account using their email and password.
 
-↓
+After successful registration, the user can log in to the platform. Once authenticated, a JWT token is issued and the user is redirected to the dashboard.
 
-Register
-
-OR
-
-Login
-
-↓
-
-JWT Authentication
-
-↓
-
-Dashboard
+Unauthenticated users cannot access repository resources or workspace routes.
 
 ---
 
-# 3. Dashboard Flow
+## Dashboard Flow
 
-Dashboard
+After login, the user lands on the dashboard.
 
-↓
+The dashboard displays:
 
-View Repositories
+* Repositories owned by the user
+* Repositories shared with the user
+* Recent repositories
 
-↓
+From the dashboard, the user can:
 
-Create Repository
-
-OR
-
-Open Existing Repository
-
-OR
-
-Delete Repository
+* Create a new repository
+* Open an existing repository
+* Delete a repository (if owner)
 
 ---
 
-# 4. Create Repository Flow
+## Repository Creation Flow
 
-Dashboard
+The user selects the "Create Repository" option and provides a repository name.
 
-↓
+Once created:
 
-Create Repository
+* A repository record is stored in the database.
+* The current user becomes the repository owner.
+* The repository is added to the user's dashboard.
 
-↓
-
-Enter Repository Name
-
-↓
-
-Create
-
-↓
-
-Repository Created
-
-↓
-
-Redirect To Workspace
+The user is then redirected to the repository workspace.
 
 ---
 
-# 5. Collaborator Flow
+## Collaborator Management Flow
 
-Repository Workspace
+Repository owners can invite collaborators using their registered email address.
 
-↓
+When an invitation is accepted:
 
-Manage Members
+* The collaborator is added to the repository.
+* Repository access permissions are granted.
+* The repository becomes visible in the collaborator's dashboard.
 
-↓
-
-Invite Collaborator
-
-↓
-
-User Accepts Invitation
-
-↓
-
-Added To Repository
-
-↓
-
-Repository Visible In Dashboard
+All repository members can access the same workspace.
 
 ---
 
-# 6. Repository Workspace Flow
+## Workspace Flow
 
-Open Repository
+When a repository is opened, the system loads:
 
-↓
+* Repository information
+* File structure
+* Folder hierarchy
+* Collaborator details
 
-Workspace Loaded
+A Socket.IO connection is established to enable real-time synchronization between active collaborators.
 
-↓
-
-File Explorer + Editor
-
-↓
-
-Real-Time Collaboration Enabled
+Each connected user joins the repository workspace channel.
 
 ---
 
-# 7. File Management Flow
+## File Management Flow
 
-Workspace
+Inside the workspace, users can:
 
-↓
+* Create files
+* Create folders
+* Rename files
+* Rename folders
+* Delete files
+* Delete folders
 
-Create File
+Whenever a file operation occurs:
 
-↓
-
-File Added To Repository
-
-↓
-
-File Appears For All Members
-
-↓
-
-Open File
-
-↓
-
-Edit File
-
-↓
-
-Auto Save
-
-↓
-
-Database Update
-
-↓
-
-Real-Time Sync
+1. The action is saved to the database.
+2. The update is emitted through Socket.IO.
+3. Connected collaborators receive the update instantly.
+4. Their workspace is updated without requiring a refresh.
 
 ---
 
-# 8. Folder Management Flow
+## Code Editing Flow
 
-Workspace
+Users can open any file from the repository and start editing.
 
-↓
+When a code change occurs:
 
-Create Folder
+1. The editor captures the modification.
+2. The update is sent to the server through Socket.IO.
+3. The server broadcasts the change to other connected collaborators.
+4. Collaborators receive and apply the update immediately.
 
-↓
-
-Folder Added
-
-↓
-
-Visible To All Collaborators
-
-↓
-
-Add Files Inside Folder
-
-↓
-
-Auto Synchronization
+This allows multiple users to work on the same project simultaneously.
 
 ---
 
-# 9. Real-Time Collaboration Flow
+## Online Presence Flow
 
-User A Opens Repository
+When a user enters a repository workspace:
 
-↓
+* Their status is marked as active.
+* Other collaborators can see that the user is online.
 
-User B Opens Repository
+When a user leaves the workspace or disconnects:
 
-↓
-
-Socket Connection Established
-
-↓
-
-Repository Room Joined
-
-↓
-
-User A Edits Code
-
-↓
-
-Change Sent To Server
-
-↓
-
-Server Broadcasts Change
-
-↓
-
-User B Receives Update
-
-↓
-
-Editor Updated Instantly
+* Their online status is removed.
+* The active members list is updated.
 
 ---
 
-# 10. Online Presence Flow
+## Repository Persistence Flow
 
-User Enters Repository
+All repository data is stored in MongoDB.
 
-↓
+Changes made to:
 
-Socket Connected
+* Files
+* Folders
+* Repository structure
+* Repository metadata
 
-↓
+are persisted automatically.
 
-Status Updated
-
-↓
-
-Online Members List Updated
-
-↓
-
-Visible To All Collaborators
+When a user returns to the repository later, the latest saved state is restored.
 
 ---
 
-# 11. Repository Persistence Flow
+## Export Flow
 
-User Edits Repository
+Repository owners and authorized collaborators can export the repository.
 
-↓
+During export:
 
-Auto Save Triggered
+1. The system collects all repository files and folders.
+2. A ZIP archive is generated.
+3. The archive is downloaded to the user's local machine.
 
-↓
-
-MongoDB Updated
-
-↓
-
-Repository Stored
-
-↓
-
-User Logs Out
-
-↓
-
-User Logs In Again
-
-↓
-
-Repository Restored
+The exported repository can then be opened and executed locally using development environments such as VS Code.
 
 ---
 
-# 12. Export Flow
+## High-Level Application Flow
 
-Repository Workspace
+User Authentication
 
-↓
+→ Dashboard
 
-Click Export
+→ Repository Creation / Repository Selection
 
-↓
+→ Repository Workspace
 
-Server Collects Repository Files
+→ File & Folder Management
 
-↓
+→ Real-Time Collaboration
 
-Generate ZIP
+→ Automatic Persistence
 
-↓
+→ Repository Export
 
-Download ZIP
-
-↓
-
-Open In VS Code
-
-↓
-
-Run Locally
+→ Local Development & Execution
 
 ---
 
-# 13. Error Handling Flow
+## Expected User Experience
 
-User Action
-
-↓
-
-Validation Check
-
-↓
-
-If Success
-
-Continue Flow
-
-↓
-
-If Error
-
-Display Error Message
-
-↓
-
-Stay On Current Screen
-
----
-
-# 14. Screen Structure
-
-1. Landing Page
-
-2. Register Page
-
-3. Login Page
-
-4. Dashboard
-
-5. Create Repository Modal
-
-6. Repository Workspace
-
-7. Collaborator Management Modal
-
-8. Export Repository Modal
-
----
-
-# 15. Workspace Layout Flow
-
-Repository Workspace
-
-│
-
-├── Top Navbar
-│     ├── Repository Name
-│     ├── Export Button
-│     └── Members
-
-│
-├── Left Sidebar
-│     ├── Files
-│     └── Folders
-
-│
-├── Center Panel
-│     └── Code Editor
-
-│
-└── Right Sidebar
-├── Online Members
-└── Activity Feed
-
----
-
-# 16. MVP User Story
-
-Priyan creates repository
-
-↓
-
-Invites Rahul and Akash
-
-↓
-
-All members join repository
-
-↓
-
-Priyan creates Login.js
-
-↓
-
-File instantly appears for Rahul and Akash
-
-↓
-
-Rahul writes code
-
-↓
-
-Code appears instantly for all members
-
-↓
-
-Repository automatically saves
-
-↓
-
-Priyan exports repository
-
-↓
-
-ZIP downloaded
-
-↓
-
-Project opened in VS Code
-
-↓
-
-Project runs locally
+A user should be able to create a repository, invite collaborators, edit project files in real time, and export the completed project without relying on ZIP sharing, repeated file transfers, or continuous manual synchronization.

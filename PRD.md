@@ -1,102 +1,142 @@
-Product Vision
+# Product Requirements Document (PRD)
 
-DevSync is a real-time collaborative repository platform that enables development teams to work on shared projects without manual code synchronization.
+## Project Name
 
-Unlike traditional repository workflows where developers continuously exchange files or perform push and pull operations to stay updated, DevSync provides a live workspace where project files and code changes are synchronized instantly across all collaborators.
+DevSync
 
-Problem Statement
+## Product Type
 
-Modern software development relies heavily on repository platforms for project storage and version management. However, team members often experience delays in collaboration because project changes must be manually synchronized through commits, pushes, pulls, or file sharing.
+Real-Time Collaborative Repository Workspace
 
-For student teams and beginner developers, these workflows can become difficult to manage and often result in version conflicts, duplicated files, and communication overhead.
+---
 
-As project complexity grows, maintaining a consistent project state across all team members becomes increasingly challenging.
+## Product Overview
 
-Proposed Solution
+DevSync is a web-based platform that combines repository management and real-time collaboration into a single workspace.
 
-DevSync provides a centralized repository workspace where multiple collaborators can work on the same project simultaneously.
+The platform allows users to create repositories, invite collaborators, manage project files, and work together on the same codebase in real time.
 
-The platform maintains a shared project state across all connected users. Any modification performed by one collaborator is immediately reflected for all other collaborators in real time.
+Unlike traditional repository platforms where team members need to repeatedly push, pull, or exchange project files, DevSync keeps all collaborators synchronized through a shared live workspace.
 
-Supported collaborative actions include:
+---
 
-File creation
-File deletion
-File renaming
-Folder management
-Code editing
-Repository updates
+## Problem Statement
 
-This eliminates the need for manual file sharing during active development sessions and ensures that all collaborators remain synchronized.
+In team projects, developers often face synchronization issues because project files are stored locally on individual systems.
 
-Core Value Proposition
+Common challenges include:
 
-DevSync combines repository management and real-time collaboration into a single platform.
+* Sharing ZIP files after every update.
+* Repeated Git push and pull operations.
+* Multiple project versions across team members.
+* Delays in collaboration and communication.
+* Difficulty tracking the latest project state.
 
-Instead of:
+As a result, teams spend time managing files instead of developing software.
 
-Edit
-↓
-Save
-↓
-Commit
-↓
-Push
-↓
-Pull
-↓
-View Changes
+---
 
-Teams can simply:
+## Proposed Solution
 
-Edit
-↓
-Collaborate
-↓
-See Changes Instantly
-Target Audience
-Primary Users
-College project teams
-Hackathon participants
-Beginner developers
-Small remote development teams
-Secondary Users
-Coding mentors
-Technical trainers
-Academic project supervisors
-Minimum Viable Product (MVP)
-Repository Management
-Create Repository
-Open Repository
-Delete Repository
-Repository Dashboard
-Collaboration
-Invite Collaborators
-View Active Members
-Manage Repository Access
-File System
-Create Files
-Delete Files
-Rename Files
-Create Folders
-Delete Folders
-Real-Time Synchronization
-Live Code Updates
-Live File Updates
-Live Folder Updates
-Persistence
-Save Repository State
-Reopen Existing Repositories
-Export
-Export Repository as ZIP
-Local Execution Support
-Success Criteria
+DevSync provides a centralized repository workspace where multiple collaborators can access and modify the same project simultaneously.
 
-The platform will be considered successful if:
+Any changes made by one collaborator are instantly reflected for all connected members, including:
 
-Multiple users can collaborate within the same repository.
-File operations synchronize in real time.
-Code changes synchronize in real time.
-Repository data persists across sessions.
-Projects can be exported successfully.
-Teams can collaborate without exchanging project files manually.
+* File creation
+* File deletion
+* File renaming
+* Folder management
+* Code editing
+
+This ensures that every team member always works on the latest version of the project.
+
+Projects can be exported as ZIP files and executed locally using development tools such as VS Code.
+
+---
+
+## Target Users
+
+* College Students
+* Hackathon Teams
+* Beginner Developers
+* Small Development Teams
+
+---
+
+## Core Features
+
+### Repository Management
+
+* Create Repository
+* Delete Repository
+* Open Repository
+* View Repository List
+
+### Collaborator Management
+
+* Invite Members
+* Remove Members
+* View Collaborators
+
+### File System
+
+* Create Files
+* Create Folders
+* Rename Files
+* Delete Files
+* Delete Folders
+
+### Real-Time Collaboration
+
+* Real-Time Code Editing
+* Real-Time File Synchronisation
+* Real-Time Folder Synchronisation
+
+### Workspace Presence
+
+* View Active Members
+* View Online Collaborators
+
+### Repository Persistence
+
+* Automatic Saving
+* Reopen Repository Anytime
+
+### Project Export
+
+* Export Repository as ZIP
+* Open and Run Locally
+
+---
+
+## Product Goals
+
+* Eliminate manual project sharing.
+* Reduce dependency on repeated push and pull operations.
+* Improve team collaboration.
+* Maintain a single source of truth for project files.
+* Provide a live repository workspace for development teams.
+
+---
+
+## Success Criteria
+
+The project will be considered successful if:
+
+* Multiple users can work inside the same repository.
+* All file operations are synchronized in real time.
+* Code changes are visible instantly to collaborators.
+* Repository data persists across sessions.
+* Projects can be exported successfully.
+* Teams can collaborate without exchanging ZIP files.
+
+---
+
+## Future Scope
+
+* Activity Logs
+* Version History
+* Built-In Code Execution
+* AI Assistant
+* AI Code Review
+* Repository Analytics
